@@ -1,5 +1,7 @@
 # Read the V-Dem-CY-Core-v14 dataset, get the relevant data, and save as json suitable for Nivo
 
+# TODO Cross-check country names with those in the GeoJSON data and fix if necessary (at least USA, Czech Republic, UK)
+
 import pandas as pd
 import json
 import numpy as np
