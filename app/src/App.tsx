@@ -1,7 +1,8 @@
 import React from 'react';
 import './App.css';
 import { ResponsiveLine } from '@nivo/line';
-import rawData from './prod-dataset.json';
+import { DataItem } from './types';
+const rawData: DataItem[] = require('./prod-dataset.json');
 
 function App() {
 
