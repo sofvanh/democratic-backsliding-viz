@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/democratic-backsliding-viz/static/css/main.3dff57b5.css",
+    "main.js": "/democratic-backsliding-viz/static/js/main.df0e6d4c.js",
+    "index.html": "/democratic-backsliding-viz/index.html",
+    "main.3dff57b5.css.map": "/democratic-backsliding-viz/static/css/main.3dff57b5.css.map",
+    "main.df0e6d4c.js.map": "/democratic-backsliding-viz/static/js/main.df0e6d4c.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3dff57b5.css",
+    "static/js/main.df0e6d4c.js"
+  ]
+}
