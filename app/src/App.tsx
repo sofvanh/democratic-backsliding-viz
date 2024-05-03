@@ -7,6 +7,7 @@ import { ChoroplethBoundFeature } from '@nivo/geo';
 const rawData: DataItem[] = require('./prod-dataset.json');
 
 function App() {
+  const [worldAverages, setWorldAverages] = useState<DataItem[]>(rawData.filter(item => item.id.startsWith('World average')));
   const [selectedCountry, setSelectedCountry] = useState<string>('');
   const [selectedData, setSelectedData] = useState<DataItem[]>([]);
 
@@ -14,20 +15,22 @@ function App() {
     const object: any = feature; // It seems that the typing of the library is outdated
     const countryName = object.properties.name;
     setSelectedCountry(countryName);
-    const dataForCountry = rawData.filter(item => item.id.startsWith(countryName));
+    const dataForCountry = rawData.filter(item => item.id.startsWith(countryName + '_'));
     setSelectedData(dataForCountry);
   };
 
   return (
     <div className="App">
       <header className="App-header">
-          Democratic development in {selectedCountry}
-          <p style={{fontSize: '12px'}}>
-            Select a country on the map!
-          </p>
+        Democratic development in {selectedCountry}
+        <p style={{ fontSize: '12px' }}>
+          Select a country on the map!
+        </p>
         <div style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
           <div style={{ height: 400, width: '50%' }}>
-            <LineGraph data={selectedData} />
+            <LineGraph
+              worldAverages={worldAverages}
+              data={selectedData} />
           </div>
           <div style={{ height: 400, width: '50%' }}>
             <ChoroplethMap onCountrySelected={handleCountrySelect} />

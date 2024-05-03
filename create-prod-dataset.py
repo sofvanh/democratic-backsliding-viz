@@ -24,5 +24,14 @@ for country, group in grouped:
         }
         result.append(series_data)
 
+# Calculate world averages for each index and each year
+world_averages = df.groupby('year')[indices].mean().reset_index()
+for index in indices:
+    series_data = {
+        'id': f"World average_{index}",
+        'data': [{'x': row['year'], 'y': row[index]} for _, row in world_averages.iterrows() if not np.isnan(row[index])]
+    }
+    result.append(series_data)
+
 with open('app/src/prod-dataset.json', 'w') as f:
     json.dump(result, f)

@@ -1,18 +1,40 @@
 import { ResponsiveLine } from '@nivo/line';
 import { DataItem } from '../types';
 
+// TODO Move this (also find prettier colors)
+const indexColors: { [key: string]: string } = {
+    'egaldem': '#FF5733',
+    'delibdem': '#33FF57',
+    'partipdem': '#3357FF',
+    'libdem': '#FF33A6',
+    'polyarchy': '#A633FF'
+};
+
 interface Props {
+    worldAverages: DataItem[]
     data: DataItem[]
 }
 
-const LineGraph = ({ data }: Props) => {
+const LineGraph = ({ worldAverages, data }: Props) => {
+
+    const getColor = (line: any) => {
+        const id: string = line.id;
+        const baseColor = indexColors[id.split('_')[2]];
+        if (!id.startsWith("World average") || data.length == 0) {
+            return baseColor;
+        }
+
+        const opacity = 0.25; // Lower opacity
+        return `${baseColor}${Math.floor(opacity * 255).toString(16)}`;
+    }
+
     return (
         <>
             <ResponsiveLine
-                data={data}
+                data={worldAverages.concat(data)}
                 margin={{ top: 50, right: 170, bottom: 50, left: 60 }}
-                xScale={{ type: 'point' }}
-                yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: true, reverse: false }}
+                xScale={{ type: 'linear', min: 'auto', max: 'auto' }}
+                yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: false, reverse: false }}
                 axisTop={null}
                 axisRight={null}
                 axisBottom={{
@@ -33,10 +55,10 @@ const LineGraph = ({ data }: Props) => {
                     legendOffset: -40,
                     legendPosition: 'middle'
                 }}
-                colors={{ scheme: 'nivo' }}
+                colors={line => getColor(line)}
                 pointSize={1}
                 pointColor={{ theme: 'background' }}
-                pointBorderWidth={2}
+                pointBorderWidth={0}
                 pointBorderColor={{ from: 'serieColor' }}
                 pointLabel="y"
                 pointLabelYOffset={-12}
