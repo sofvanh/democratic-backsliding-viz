@@ -1,5 +1,7 @@
 export interface DataItem {
     id: string;
+    label: string;
+    color: string;
     data: DataPoint[];
 }
 

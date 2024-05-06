@@ -14,6 +14,7 @@
     "@types/node": "^16.18.96",
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.0",
+    "chroma-js": "^2.4.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-scripts": "5.0.1",
@@ -47,6 +48,7 @@
     ]
   },
   "devDependencies": {
+    "@types/chroma-js": "^2.4.4",
     "gh-pages": "^6.1.1"
   }
 }
