@@ -31,7 +31,7 @@ function App() {
 
   const handleCountrySelect = useCallback((feature: ChoroplethBoundFeature) => {
     const object: any = feature; // It seems that the typing of the library is outdated
-    const countryName = object.properties.name;
+    const countryName = object.properties.NAME;
     setSelectedCountry(countryName);
     const dataForCountry = rawData.filter(item => item.id.startsWith(countryName + '_'));
     const dataWithColors = setColors(dataForCountry, (color) => chroma(color).saturate(1).css());

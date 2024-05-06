@@ -1,5 +1,5 @@
 import { ChoroplethBoundFeature, ResponsiveChoropleth } from '@nivo/geo';
-import worldCountries from '../world_countries.json';
+import geojson from '../natural_earth.json';
 
 interface Props {
     onCountrySelected: (feature: ChoroplethBoundFeature) => void;
@@ -9,7 +9,7 @@ const ChoroplethMap = ({ onCountrySelected }: Props) => {
   return (
       <ResponsiveChoropleth
           data={[]}  // Initially, no data is passed
-          features={worldCountries.features}
+          features={geojson.features}
           margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
           colors="YlOrRd"
           domain={[ 0, 1000000 ]}
