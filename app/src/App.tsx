@@ -8,11 +8,11 @@ import chroma from 'chroma-js';
 const rawData: DataItem[] = require('./prod-dataset.json');
 
 const indexColors: { [key: string]: string } = {
-  'egaldem': '#FF5733',
-  'delibdem': '#33FF57',
-  'partipdem': '#3357FF',
-  'libdem': '#FF33A6',
-  'polyarchy': '#A633FF'
+  'egaldem': '#50514f',
+  'delibdem': '#f25f5c',
+  'partipdem': '#ffe066',
+  'libdem': '#247ba0',
+  'polyarchy': '#70c1b3'
 };
 
 const setColors = (data: DataItem[], adjustColor: (color: string) => string) => {
@@ -34,7 +34,7 @@ function App() {
     const countryName = object.properties.NAME;
     setSelectedCountry(countryName);
     const dataForCountry = rawData.filter(item => item.id.startsWith(countryName + '_'));
-    const dataWithColors = setColors(dataForCountry, (color) => chroma(color).saturate(1).css());
+    const dataWithColors = setColors(dataForCountry, _ => _);
     setSelectedData(dataWithColors);
   }, [setSelectedCountry, setSelectedData]);
 
