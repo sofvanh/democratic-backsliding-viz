@@ -1,7 +1,5 @@
 # Read the V-Dem-CY-Core-v14 dataset, get the relevant data, and save as json suitable for Nivo
 
-# TODO Cross-check country names with those in the GeoJSON data and fix if necessary (at least USA, Czech Republic, UK)
-
 import pandas as pd
 import json
 import numpy as np
@@ -64,11 +62,11 @@ result = []
 indices = ['v2x_polyarchy', 'v2x_libdem',
            'v2x_partipdem', 'v2x_delibdem', 'v2x_egaldem']
 index_labels = {
-    'v2x_polyarchy': 'Polyarchy',
-    'v2x_libdem': 'Liberal Democracy',
-    'v2x_partipdem': 'Participatory Democracy',
-    'v2x_delibdem': 'Deliberative Democracy',
-    'v2x_egaldem': 'Egalitarian Democracy'
+    'v2x_polyarchy': 'Electoral',
+    'v2x_libdem': 'Liberal',
+    'v2x_partipdem': 'Participatory',
+    'v2x_delibdem': 'Deliberative',
+    'v2x_egaldem': 'Egalitarian'
 }
 
 grouped = df.groupby('country_name')
