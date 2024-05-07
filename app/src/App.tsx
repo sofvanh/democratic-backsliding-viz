@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import './App.css';
-import { DataItem } from './types';
+import { ChoroplethDataItem, DataItem } from './types';
 import LineGraph from './components/LineGraph';
 import ChoroplethMap from './components/ChoroplethMap';
 import { ChoroplethBoundFeature } from '@nivo/geo';
@@ -23,12 +23,19 @@ function App() {
   const [selectedIndex, setSelectedIndex] = useState<string>('');
   const [selectedCountry, setSelectedCountry] = useState<string>('');
   const [combinedData, setCombinedData] = useState<DataItem[]>([]);
+  const [choroplethData, setChoroplethData] = useState<ChoroplethDataItem[]>([]);
+  const [choroplethColors, setChoroplethColors] = useState<string[]>([]);
 
   const handleCountrySelect = useCallback((feature: ChoroplethBoundFeature) => {
     const object: any = feature; // It seems that the typing of the library is outdated
     const countryName = object.properties.NAME;
     setSelectedCountry(countryName);
   }, [setSelectedCountry]);
+
+  const generateColors = useCallback((targetColor: string) => {
+    const lightColor = chroma(targetColor).brighten(2).hex();
+    return chroma.scale([lightColor, targetColor]).mode('lab').colors(5);
+  }, []);
 
   useEffect(() => {
     const countryData = selectedCountry ? setColors(rawData.filter(item => item.id.startsWith(selectedCountry + '_')), _ => _) : [];
@@ -39,6 +46,22 @@ function App() {
     setCombinedData(data);
   }, [worldAverages, selectedIndex, selectedCountry]);
 
+  useEffect(() => {
+    if (!selectedIndex) {
+      setChoroplethData([]);
+      setChoroplethColors(['#ffffff']);
+      return;
+    }
+    const data: ChoroplethDataItem[] = rawData
+      .filter(item => item.id.endsWith(`_${selectedIndex}`))
+      .map(item => ({
+        id: item.ISO,
+        value: item.data.find(dataPoint => dataPoint.x === 2023)!.y
+      }));
+    setChoroplethData(data);
+    setChoroplethColors(generateColors(indexColors[selectedIndex]));
+  }, [selectedIndex, generateColors]);
+
   return (
     <div className="App">
       <header className="App-header">
@@ -48,6 +71,7 @@ function App() {
         <div style={{ fontSize: '14px', height: '30px', alignContent: 'center' }}>
           {selectedCountry ?
             <>
+              {/* TODO Say 'no data' if the selected country's not in the dataset */}
               Selected: <b>{selectedCountry}</b> <button onClick={() => setSelectedCountry('')}>
                 x
               </button>
@@ -59,7 +83,7 @@ function App() {
             <LineGraph data={combinedData} onIndexSelected={(index) => setSelectedIndex(index)} />
           </div>
           <div style={{ height: 400, width: '50%' }}>
-            <ChoroplethMap onCountrySelected={handleCountrySelect} />
+            <ChoroplethMap data={choroplethData} colors={choroplethColors} onCountrySelected={handleCountrySelect} />
           </div>
         </div>
         <IndexInfoBox
