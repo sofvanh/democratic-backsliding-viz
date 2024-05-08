@@ -83,7 +83,7 @@ function App() {
             <LineGraph data={combinedData} onIndexSelected={(index) => setSelectedIndex(index)} />
           </div>
           <div style={{ height: 400, width: '50%' }}>
-            <ChoroplethMap data={choroplethData} colors={choroplethColors} onCountrySelected={handleCountrySelect} />
+            <ChoroplethMap data={choroplethData} colors={choroplethColors} selectedCountry={selectedCountry} onCountrySelected={handleCountrySelect} />
           </div>
         </div>
         <IndexInfoBox

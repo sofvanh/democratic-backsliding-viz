@@ -5,10 +5,12 @@ import { ChoroplethDataItem } from '../types';
 interface Props {
   data: ChoroplethDataItem[];
   colors: string[];
+  selectedCountry: string;
   onCountrySelected: (feature: ChoroplethBoundFeature) => void;
 }
 
-const ChoroplethMap = ({ data, colors, onCountrySelected }: Props) => {
+const ChoroplethMap = ({ data, colors, selectedCountry, onCountrySelected }: Props) => {
+
   return (
     <ResponsiveChoropleth
       data={data}
@@ -18,13 +20,10 @@ const ChoroplethMap = ({ data, colors, onCountrySelected }: Props) => {
       domain={[0, 1]}
       unknownColor="#666666"
       label="properties.NAME"
-      valueFormat=".2s"
       projectionTranslation={[0.5, 0.5]}
       projectionRotation={[0, 0, 0]}
-      onClick={feature => {
-        console.log(feature)
-        onCountrySelected(feature)
-      }}
+      onClick={feature => onCountrySelected(feature)}
+      borderWidth={country => country.label === selectedCountry ? 2 : 0.5}
       legends={[
         {
           anchor: 'bottom-left',
@@ -53,6 +52,4 @@ const ChoroplethMap = ({ data, colors, onCountrySelected }: Props) => {
   );
 };
 
-
 export default ChoroplethMap;
-
