@@ -1,12 +1,13 @@
-import { ResponsiveLine } from '@nivo/line';
+import { Point, ResponsiveLine } from '@nivo/line';
 import { DataItem } from '../types';
 
 interface Props {
   data: DataItem[],
-  onIndexSelected: (index: string) => void
+  onIndexSelected: (index: string) => void,
+  onYearSelected: (year: number) => void
 }
 
-const LineGraph = ({ data, onIndexSelected }: Props) =>
+const LineGraph = ({ data, onIndexSelected, onYearSelected }: Props) =>
   <>
     <ResponsiveLine
       data={data}
@@ -43,7 +44,10 @@ const LineGraph = ({ data, onIndexSelected }: Props) =>
       useMesh={true}
       enableGridX={false}
       enableGridY={false}
-      onClick={serie => onIndexSelected(String(serie.serieId).split('_')[2])}
+      onClick={point => {
+        onIndexSelected(String(point.serieId).split('_')[2]);
+        onYearSelected(Number(point.data.x));
+      }}
       legends={[
         {
           data: data,

@@ -5,7 +5,7 @@ import LineGraph from './components/LineGraph';
 import ChoroplethMap from './components/ChoroplethMap';
 import { ChoroplethBoundFeature } from '@nivo/geo';
 import chroma from 'chroma-js';
-import { indexColors } from './indexInfo';
+import { indexColors, indexNames } from './indexInfo';
 import IndexInfoBox from './components/IndexInfoBox';
 const rawData: DataItem[] = require('./prod-dataset.json');
 
@@ -22,6 +22,7 @@ function App() {
   const [worldAverages] = useState<DataItem[]>(setColors(rawData.filter(item => item.id.startsWith('World average')), (color) => chroma(color).alpha(0.5).css()));
   const [selectedIndex, setSelectedIndex] = useState<string>('');
   const [selectedCountry, setSelectedCountry] = useState<string>('');
+  const [selectedYear, setSelectedYear] = useState<number>(2023);
   const [combinedData, setCombinedData] = useState<DataItem[]>([]);
   const [choroplethData, setChoroplethData] = useState<ChoroplethDataItem[]>([]);
   const [choroplethColors, setChoroplethColors] = useState<string[]>([]);
@@ -31,6 +32,10 @@ function App() {
     const countryName = object.properties.NAME;
     setSelectedCountry(countryName);
   }, [setSelectedCountry]);
+
+  const handleYearSelect = useCallback((year: number) => {
+    setSelectedYear(year);
+  }, [setSelectedYear]);
 
   const generateColors = useCallback((targetColor: string) => {
     const lightColor = chroma(targetColor).brighten(2).hex();
@@ -53,14 +58,14 @@ function App() {
       return;
     }
     const data: ChoroplethDataItem[] = rawData
-      .filter(item => item.id.endsWith(`_${selectedIndex}`))
+      .filter(item => item.id.endsWith(`_${selectedIndex}`) && item.data.some(dataPoint => dataPoint.x === selectedYear))
       .map(item => ({
         id: item.ISO,
-        value: item.data.find(dataPoint => dataPoint.x === 2023)!.y
+        value: item.data.find(dataPoint => dataPoint.x === selectedYear)?.y || (() => { console.error('No data found for year:', selectedYear); return 0; })()
       }));
     setChoroplethData(data);
     setChoroplethColors(generateColors(indexColors[selectedIndex]));
-  }, [selectedIndex, generateColors]);
+  }, [selectedIndex, selectedYear, generateColors]);
 
   return (
     <div className="App">
@@ -69,18 +74,21 @@ function App() {
           Democratic development across the world
         </h4>
         <div style={{ fontSize: '14px', height: '30px', alignContent: 'center' }}>
-          {selectedCountry ?
+          {selectedCountry || selectedIndex ?
             <>
               {/* TODO Say 'no data' if the selected country's not in the dataset */}
-              Selected: <b>{selectedCountry}</b> <button onClick={() => setSelectedCountry('')}>
-                x
-              </button>
+              Selected: 
+              {selectedCountry && <><b>{selectedCountry}</b> <button onClick={() => setSelectedCountry('')}>x</button></>}
+              {" "}
+              {selectedIndex && <><b>{indexNames[selectedIndex]}</b> <button onClick={() => setSelectedIndex('')}>x</button></>}
+              {" "}
+              {selectedIndex && <><b>{selectedYear}</b> <button onClick={() => setSelectedYear(2023)}>x</button></>}
             </> :
-            'Select a country on the map to see its data.'}
+            'Select a country, democracy index, or data point to see more detailed data.'}
         </div>
         <div style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
           <div style={{ height: 400, width: '50%' }}>
-            <LineGraph data={combinedData} onIndexSelected={(index) => setSelectedIndex(index)} />
+            <LineGraph data={combinedData} onIndexSelected={setSelectedIndex} onYearSelected={handleYearSelect} />
           </div>
           <div style={{ height: 400, width: '50%' }}>
             <ChoroplethMap data={choroplethData} colors={choroplethColors} selectedCountry={selectedCountry} onCountrySelected={handleCountrySelect} />
