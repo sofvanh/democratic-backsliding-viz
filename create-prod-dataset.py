@@ -4,6 +4,8 @@ import pandas as pd
 import json
 import numpy as np
 
+print("\nGenerating democracy data json for production...\n")
+
 df = pd.read_csv("V-Dem-CY-Core-v14.csv")
 df = df[
     [
@@ -29,11 +31,11 @@ geojson_countries = {
 }
 dataset_countries = set(df["country_name"].unique())
 unmatched_countries = dataset_countries - geojson_countries
-print("Countries in dataset not found in GeoJSON:", unmatched_countries)
+print("Countries in dataset not found in GeoJSON:", unmatched_countries, "\n")
 
 # Find country names that are present in the GeoJSON but not in the dataset
 missing_countries = geojson_countries - dataset_countries
-print("Countries in GeoJSON not found in dataset:", missing_countries)
+print("Countries in GeoJSON not found in dataset:", missing_countries, "\n")
 
 
 # Rename specific countries in the dataset to match the GeoJSON naming conventions
@@ -64,6 +66,7 @@ unmatched_countries_updated = dataset_countries_updated - geojson_countries
 print(
     "Countries in dataset not found in GeoJSON after renaming:",
     unmatched_countries_updated,
+    "\n",
 )
 
 # Generate a list of unmatched countries in the geojson countries after renaming
@@ -71,6 +74,7 @@ geojson_countries_updated = geojson_countries - dataset_countries_updated
 print(
     "Countries in GeoJSON not found in dataset after renaming:",
     geojson_countries_updated,
+    "\n",
 )
 
 # Rename specific text ids in the dataset to match the GeoJSON ADM0_A3 codes
@@ -78,8 +82,6 @@ rename_text_id_map = {"SML": "SOL", "SSD": "SDS", "XKX": "KOS"}
 
 df["country_text_id"] = df["country_text_id"].replace(rename_text_id_map)
 
-
-result = []
 indices = [
     "v2x_polyarchy",
     "v2x_libdem",
@@ -95,17 +97,41 @@ index_labels = {
     "v2x_egaldem": "Egalitarian",
 }
 
+new_rows = []
 grouped = df.groupby("country_name")
 
+# Fill in gaps in data with None values for missing years
+for country, group in grouped:
+    all_years = range(group["year"].min(), 2023)
+    existing_years = set(group["year"])
+    missing_years = [year for year in all_years if year not in existing_years]
+
+    for missing_year in missing_years:
+        row_data = {
+            "country_name": country,
+            "country_text_id": group["country_text_id"].iloc[0],
+            "year": missing_year,
+        }
+        for idx in indices:
+            row_data[idx] = -1
+        new_rows.append(row_data)
+
+# Append new rows to the original DataFrame and sort
+new_df = pd.concat([df, pd.DataFrame(new_rows)])
+new_df = new_df.sort_values(by="year")
+df = new_df
+
+
+result = []
+grouped = df.groupby("country_name")
 for country, group in grouped:
     for index in indices:
         series_data = {
             "id": f"{country}_{index}",
             "ISO": group["country_text_id"].iloc[0],
             "label": f"{country} - {index_labels[index]}",
-            # Two of the indices are tracked starting from 1900
             "data": [
-                {"x": row["year"], "y": row[index]}
+                {"x": row["year"], "y": None if row[index] == -1 else row[index]}
                 for _, row in group.iterrows()
                 if not np.isnan(row[index])
             ],
@@ -154,6 +180,7 @@ for series in result:
         )
 
 # Print mismatches
+iso_mismatches = list(set(iso_mismatches))
 if iso_mismatches:
     print("There are mismatches in ISO codes:")
     for mismatch in iso_mismatches:
@@ -164,3 +191,5 @@ else:
 
 with open("app/src/prod-dataset.json", "w") as f:
     json.dump(result, f)
+
+print("\nGeneration finished.\n")
