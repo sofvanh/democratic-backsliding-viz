@@ -12,13 +12,13 @@ const LineGraph = ({ data, onIndexSelected, onYearSelected }: Props) =>
     <ResponsiveLine
       data={data}
       margin={{ top: 50, right: 20, bottom: 50, left: 60 }}
-      xScale={{ type: 'linear', min: 'auto', max: 'auto' }}
+      xScale={{ type: 'linear', min: 'auto', max: 2025 }}
       yScale={{ type: 'linear', min: 0, max: 1, stacked: false, reverse: false }}
       axisTop={null}
       axisRight={null}
       axisBottom={{
         // TODO Make tickValues dynamic to screen/graph width
-        tickValues: [1800, 1825, 1850, 1875, 1900, 1925, 1950, 1975, 2000],
+        tickValues: [1800, 1825, 1850, 1875, 1900, 1925, 1950, 1975, 2000, 2025],
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
