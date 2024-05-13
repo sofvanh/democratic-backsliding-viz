@@ -74,7 +74,7 @@ print(
 )
 
 # Rename specific text ids in the dataset to match the GeoJSON ADM0_A3 codes
-rename_text_id_map = {"SML": "SOL", "SSD": "SDS"}
+rename_text_id_map = {"SML": "SOL", "SSD": "SDS", "XKX": "KOS"}
 
 df["country_text_id"] = df["country_text_id"].replace(rename_text_id_map)
 
