@@ -13,7 +13,7 @@ const LineGraph = ({ data, onIndexSelected, onYearSelected }: Props) =>
       data={data}
       margin={{ top: 50, right: 20, bottom: 50, left: 60 }}
       xScale={{ type: 'linear', min: 'auto', max: 'auto' }}
-      yScale={{ type: 'linear', min: 'auto', max: 'auto', stacked: false, reverse: false }}
+      yScale={{ type: 'linear', min: 0, max: 1, stacked: false, reverse: false }}
       axisTop={null}
       axisRight={null}
       axisBottom={{
