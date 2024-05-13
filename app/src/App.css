@@ -2,6 +2,18 @@
 
 .App {
   text-align: center;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.App-content {
+  width: 100%;
+  max-width: 1400px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .App-logo {
@@ -15,11 +27,7 @@
   }
 }
 
-.App-header { 
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.App-header {
   font-size: calc(10px + 2vmin);
 }
 
@@ -31,6 +39,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }

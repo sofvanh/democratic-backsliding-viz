@@ -69,15 +69,17 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <h4>
-          Democratic development across the world
-        </h4>
+      <div className="App-content">
+        <header className="App-header">
+          <h4>
+            Democratic development across the world
+          </h4>
+        </header>
         <div style={{ fontSize: '14px', height: '30px', alignContent: 'center' }}>
           {selectedCountry || selectedIndex ?
             <>
               {/* TODO Say 'no data' if the selected country's not in the dataset */}
-              Selected: 
+              Selected:
               {selectedCountry && <><b>{selectedCountry}</b> <button onClick={() => setSelectedCountry('')}>x</button></>}
               {" "}
               {selectedIndex && <><b>{indexNames[selectedIndex]}</b> <button onClick={() => setSelectedIndex('')}>x</button></>}
@@ -98,7 +100,7 @@ function App() {
           selectedIndex={selectedIndex}
           onClose={() => setSelectedIndex('')}
         />
-      </header>
+      </div>
     </div>
   );
 }
