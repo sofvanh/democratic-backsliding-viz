@@ -1,4 +1,11 @@
+html {
+  background: #F3F1ED;
+  color: #1A1205;
+  font-size: 100%;
+}
+
 body {
+  width: 100%;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -12,6 +19,21 @@ code {
     monospace;
 }
 
-h4 {
+h1 {
+  font-size: 2rem;
   font-weight: 600;
+  margin: 1rem 0 2rem 0;
+}
+
+h4 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0.5rem 0;
+}
+
+p {
+  width: 80%;
+  max-width: 75ch;
+  font-size: 1rem;
+  text-align: center;
 }

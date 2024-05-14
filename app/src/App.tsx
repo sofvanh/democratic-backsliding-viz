@@ -6,7 +6,6 @@ import ChoroplethMap from './components/ChoroplethMap';
 import { ChoroplethBoundFeature } from '@nivo/geo';
 import chroma from 'chroma-js';
 import { indexColors, indexNames } from './indexInfo';
-import IndexInfoBox from './components/IndexInfoBox';
 const rawData: DataItem[] = require('./prod-dataset.json');
 
 
@@ -68,13 +67,13 @@ function App() {
   }, [selectedIndex, selectedYear, generateColors]);
 
   return (
-    <div className="App">
-      <div className="App-content">
-        <header className="App-header">
-          <h4>
-            Democratic development across the world
-          </h4>
-        </header>
+    <div className="App-content Centered">
+      <header className="App-header">
+        <h1>
+          Democratic development across the world
+        </h1>
+      </header>
+      <body>
         <div style={{ fontSize: '14px', height: '30px', alignContent: 'center' }}>
           {selectedCountry || selectedIndex ?
             <>
@@ -96,11 +95,16 @@ function App() {
             <ChoroplethMap data={choroplethData} colors={choroplethColors} selectedCountry={selectedCountry} onCountrySelected={handleCountrySelect} />
           </div>
         </div>
-        <IndexInfoBox
-          selectedIndex={selectedIndex}
-          onClose={() => setSelectedIndex('')}
-        />
-      </div>
+        <div className="Centered">
+          <h4>Democracy indices explained</h4>
+          <p>The indices are five <i>high-level democratic indices</i>, aggregating data from lower-level indices to describe the state of democracy in a country over time across five key democratic principles. Source: <a href="https://v-dem.net/">Varieties of Democracy (V-Dem)</a>.</p>
+          <p className="Border" style={{ borderColor: indexColors['polyarchy'] }}><b>Electoral</b>: Elections are trustworthy and fair.</p>
+          <p className="Border" style={{ borderColor: indexColors['libdem'] }}><b>Liberal</b>: Individual and minority rights are protected against the tyranny of the state and majority. The government's power is regulated through constitutional laws, strong rule of law, an independent judiciary, and effective checks and balances.</p>
+          <p className="Border" style={{ borderColor: indexColors['partipdem'] }}><b>Participatory</b>: Citizens are active participators in all political processes, electoral and non-electoral.</p>
+          <p className="Border" style={{ borderColor: indexColors['delibdem'] }}><b>Deliberative</b>: Decisions are reached through public reasoning focused on the common good and not through e.g. emotional appeals, solidary attachments, parochial interests, or coercion.</p>
+          <p className="Border" style={{ borderColor: indexColors['egaldem'] }}><b>Egalitarian</b>: All social groups and individuals have the same rights and freedoms and equal access to resources and power.</p>
+        </div>
+      </body>
     </div>
   );
 }
