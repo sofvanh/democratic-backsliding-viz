@@ -1,9 +1,9 @@
 export const indexColors: { [key: string]: string } = {
-  'polyarchy': '#264653',
-  'libdem': '#4F345A',
-  'partipdem': '#661030',
-  'delibdem': '#e76f51',
-  'egaldem': '#A44200',
+  'polyarchy': '#702963',
+  'libdem': '#C51E3A',
+  'partipdem': '#FFA000',
+  'delibdem': '#8A9A5B',
+  'egaldem': '#104547',
 };
 
 export const indexNames: { [key: string]: string } = {
