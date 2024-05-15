@@ -10,6 +10,10 @@
   min-height: 100vh;
 }
 
+.Selections {
+  line-height: 24px;
+}
+
 .Descriptions {
   margin-top: 20px;
 }

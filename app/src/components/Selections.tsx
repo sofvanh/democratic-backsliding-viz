@@ -11,7 +11,7 @@ interface Props {
 
 const Selections = ({ selectedCountry, selectedIndex, selectedYear, setSelectedCountry, setSelectedIndex, setSelectedYear }: Props) => {
   return (
-    <div className="Max-width Left Padding">
+    <div className="Selections Max-width Left Padding">
       <div>
         <b>Country</b>: {selectedCountry && <><b>{selectedCountry}</b> <button onClick={() => setSelectedCountry('')}>x</button></>}
       </div>

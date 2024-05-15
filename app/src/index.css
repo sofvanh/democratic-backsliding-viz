@@ -37,3 +37,19 @@ p {
   font-size: 1rem;
   text-align: center;
 }
+
+button {
+  min-width: 22px;
+  min-height: 22px;
+  background: #e8e0d6;
+  border-radius: 3px;
+  border: none;
+  color: #3E4E59;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #d6cfc7;
+  color: #2c3e50;
+}
