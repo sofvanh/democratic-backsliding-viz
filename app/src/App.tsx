@@ -7,6 +7,7 @@ import { ChoroplethBoundFeature } from '@nivo/geo';
 import chroma from 'chroma-js';
 import { indexColors, indexNames } from './indexInfo';
 const rawData: DataItem[] = require('./prod-dataset.json');
+const countryAverageData: DataItem[] = require('./prod-dataset-country-averages.json');
 
 
 const setColors = (data: DataItem[], adjustColor: (color: string) => string) => {
@@ -51,29 +52,26 @@ function App() {
   }, [worldAverages, selectedIndex, selectedCountry]);
 
   useEffect(() => {
-    if (!selectedIndex) {
-      setChoroplethData([]);
-      setChoroplethColors(['#ffffff']);
-      return;
-    }
-    const data: ChoroplethDataItem[] = rawData
-      .filter(item => item.id.endsWith(`_${selectedIndex}`) && item.data.some(dataPoint => dataPoint.x === selectedYear))
+    const dataset = selectedIndex === '' ? countryAverageData : rawData;
+    const index = selectedIndex === '' ? 'overall' : selectedIndex;
+    const data: ChoroplethDataItem[] = dataset
+      .filter(item => item.id.endsWith(`_${index}`) && item.data.some(dataPoint => dataPoint.x === selectedYear))
       .map(item => ({
         id: item.ISO,
         value: item.data.find(dataPoint => dataPoint.x === selectedYear)?.y || (() => { console.error('No data found for year:', selectedYear); return 0; })()
       }));
     setChoroplethData(data);
-    setChoroplethColors(generateColors(indexColors[selectedIndex]));
+    setChoroplethColors(generateColors(indexColors[index]));
   }, [selectedIndex, selectedYear, generateColors]);
 
   return (
-    <div className="App-content Centered">
-      <header className="App-header">
+    <>
+      <header className="App-header Centered">
         <h1>
           Democratic development across the world
         </h1>
       </header>
-      <body>
+      <body className="App-content Centered">
         <div style={{ fontSize: '14px', height: '30px', alignContent: 'center' }}>
           {selectedCountry || selectedIndex ?
             <>
@@ -105,7 +103,7 @@ function App() {
           <p className="Border" style={{ borderColor: indexColors['egaldem'] }}><b>Egalitarian</b>: All social groups and individuals have the same rights and freedoms and equal access to resources and power.</p>
         </div>
       </body>
-    </div>
+    </>
   );
 }
 

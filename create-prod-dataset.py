@@ -192,4 +192,23 @@ else:
 with open("app/src/prod-dataset.json", "w") as f:
     json.dump(result, f)
 
+# Create another dataset with country averages over all five indexes
+result = []
+grouped = df.groupby("country_name")
+for country, group in grouped:
+    series_data = {
+        "id": f"{country}_overall",
+        "ISO": group["country_text_id"].iloc[0],
+        "label": f"{country} - Overall",
+        "data": [],
+    }
+    for year, year_group in group.groupby("year"):
+        average_index = year_group[indices].mean(axis=1).mean()
+        if not np.isnan(average_index):
+            series_data["data"].append({"x": year, "y": round(average_index, 3)})
+    result.append(series_data)
+
+with open("app/src/prod-dataset-country-averages.json", "w") as f:
+    json.dump(result, f)
+
 print("\nGeneration finished.\n")
