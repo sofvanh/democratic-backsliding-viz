@@ -33,6 +33,7 @@ const Selections = ({ selectedCountries, allCountries, selectedIndex, selectedYe
     setIsInputFocused(false);
   };
 
+  // TODO The year should be a slider
   return (
     <div className="Selections Max-width Left Padding-0-20">
       <div className="Horizontal">
@@ -75,11 +76,14 @@ const Selections = ({ selectedCountries, allCountries, selectedIndex, selectedYe
           </div>
         }
       </div>
-      <div>
-        <b>Index</b>: {selectedIndex && <><b>{indexNames[selectedIndex]}</b> <button onClick={() => setSelectedIndex('')}>x</button></>}
+      <div className="Horizontal">
+        <b>Index</b>:&nbsp;
+        {selectedIndex && <><b>{indexNames[selectedIndex]}</b>&nbsp;<button onClick={() => setSelectedIndex('')}>x</button></>}
+        {selectedIndex == '' && <div className="Hint">&nbsp;None selected</div>}
       </div>
       <div>
-        <b>Year</b>: {selectedYear != 2023 && <><b>{selectedYear}</b> <button onClick={() => setSelectedYear(2023)}>x</button></>}
+        <b>Year</b>:&nbsp;
+        {selectedYear != 2023 && <><b>{selectedYear}</b>&nbsp;<button onClick={() => setSelectedYear(2023)}>x</button></>}
         {selectedYear == 2023 && <>2023</>}
       </div>
     </div>
