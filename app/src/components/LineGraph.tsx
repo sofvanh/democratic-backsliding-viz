@@ -95,7 +95,7 @@ const LineGraph = ({ data, selectedYear, onIndexSelected, onYearSelected }: Prop
             direction: 'column',
             justify: false,
             translateX: 10,
-            translateY: 0,
+            translateY: -40,
             itemsSpacing: 0,
             itemDirection: 'left-to-right',
             itemWidth: 160,
