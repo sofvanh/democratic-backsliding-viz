@@ -87,7 +87,7 @@ const LineGraph = ({ data, selectedYear, onIndexSelected, onYearSelected }: Prop
           onIndexSelected(String(point.serieId).split('_')[2]);
           onYearSelected(Number(point.data.x));
         }}
-        layers={['grid', 'markers', 'axes', 'areas', 'lines', 'points', 'slices', 'mesh', 'legends', customLayer]}
+        layers={['grid', 'markers', 'axes', 'areas', 'lines', 'points', 'slices', 'mesh', 'legends', 'crosshair', customLayer]}
         legends={[
           {
             data: data,
