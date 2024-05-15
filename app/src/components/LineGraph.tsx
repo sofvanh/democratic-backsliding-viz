@@ -44,6 +44,7 @@ const LineGraph = ({ data, onIndexSelected, onYearSelected }: Props) =>
       useMesh={true}
       enableGridX={false}
       enableGridY={false}
+      tooltipFormat={value => `${value.toString()} units`}
       onClick={point => {
         onIndexSelected(String(point.serieId).split('_')[2]);
         onYearSelected(Number(point.data.x));

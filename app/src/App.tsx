@@ -67,12 +67,12 @@ function App() {
   return (
     <>
       <header className="App-header Centered">
-        <h1>
+        <h1 className="Left Max-width">
           Democratic development across the world
         </h1>
       </header>
       <body className="App-content Centered">
-        <div style={{ fontSize: '14px', height: '30px', alignContent: 'center' }}>
+        <div className="Max-width" style={{ fontSize: '14px', height: '30px', alignContent: 'center' }}>
           {selectedCountry || selectedIndex ?
             <>
               {/* TODO Say 'no data' if the selected country's not in the dataset */}
@@ -85,15 +85,20 @@ function App() {
             </> :
             'Select a country, democracy index, or data point to see more detailed data.'}
         </div>
-        <div style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
+        <div className="Max-width" style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
           <div style={{ height: 400, width: '50%' }}>
             <LineGraph data={combinedData} onIndexSelected={setSelectedIndex} onYearSelected={handleYearSelect} />
           </div>
           <div style={{ height: 400, width: '50%' }}>
-            <ChoroplethMap data={choroplethData} colors={choroplethColors} selectedCountry={selectedCountry} onCountrySelected={handleCountrySelect} />
+            <ChoroplethMap
+              data={choroplethData}
+              colors={choroplethColors}
+              selectedLabel={selectedIndex === '' ? 'Overall' : indexNames[selectedIndex]}
+              selectedCountry={selectedCountry}
+              onCountrySelected={handleCountrySelect} />
           </div>
         </div>
-        <div className="Centered">
+        <div className="Descriptions Left Max-width">
           <h4>Democracy indices explained</h4>
           <p>The indices are five <i>high-level democratic indices</i>, aggregating data from lower-level indices to describe the state of democracy in a country over time across five key democratic principles. Source: <a href="https://v-dem.net/">Varieties of Democracy (V-Dem)</a>.</p>
           <p className="Border" style={{ borderColor: indexColors['polyarchy'] }}><b>Electoral</b>: Elections are trustworthy and fair.</p>
