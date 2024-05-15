@@ -96,7 +96,7 @@ function App() {
         />
         <div className="Max-width" style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
           <div style={{ height: 400, width: '50%' }}>
-            <LineGraph data={combinedData} onIndexSelected={setSelectedIndex} onYearSelected={handleYearSelect} />
+            <LineGraph data={combinedData} selectedYear={selectedYear} onIndexSelected={setSelectedIndex} onYearSelected={handleYearSelect} />
           </div>
           <div style={{ height: 400, width: '50%' }}>
             <ChoroplethMap

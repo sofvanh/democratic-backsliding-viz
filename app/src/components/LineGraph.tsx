@@ -4,11 +4,13 @@ import { indexNames } from '../indexInfo';
 
 interface Props {
   data: DataItem[],
+  selectedYear: number | null,
   onIndexSelected: (index: string) => void,
   onYearSelected: (year: number) => void
 }
 
-const LineGraph = ({ data, onIndexSelected, onYearSelected }: Props) => {
+const LineGraph = ({ data, selectedYear, onIndexSelected, onYearSelected }: Props) => {
+
   const customTooltip: PointTooltip = ({ point }: PointTooltipProps) => (
     <div style={{
       background: 'white',
@@ -27,6 +29,21 @@ const LineGraph = ({ data, onIndexSelected, onYearSelected }: Props) => {
       {point.data.x.toString()}: <b>{point.data.y.toString()}</b>
     </div>
   );
+
+  const customLayer = ({ xScale, innerHeight }: any) => {
+    const x = xScale(selectedYear);
+    return (
+      <line
+        x1={x}
+        x2={x}
+        y1={0}
+        y2={innerHeight}
+        stroke="var(--line-color)"
+        strokeWidth={2}
+        strokeDasharray="4 4"
+      />
+    );
+  };
 
   return (
     <>
@@ -70,6 +87,7 @@ const LineGraph = ({ data, onIndexSelected, onYearSelected }: Props) => {
           onIndexSelected(String(point.serieId).split('_')[2]);
           onYearSelected(Number(point.data.x));
         }}
+        layers={['grid', 'markers', 'axes', 'areas', 'lines', 'points', 'slices', 'mesh', 'legends', customLayer]}
         legends={[
           {
             data: data,
