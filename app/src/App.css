@@ -3,8 +3,6 @@
 .App-header {
   font-size: calc(10px + 2vmin);
   width: 100%;
-  padding: 0px 20px;
-  box-sizing: border-box;
 }
 
 .App-content {
@@ -14,13 +12,16 @@
 
 .Descriptions {
   margin-top: 20px;
-  padding: 0px 20px;
-  box-sizing: border-box;
 }
 
 .Max-width {
   width: 100%;
   max-width: 1200px;
+}
+
+.Padding {
+  padding-left: 20px;
+  box-sizing: border-box;
 }
 
 .Left {

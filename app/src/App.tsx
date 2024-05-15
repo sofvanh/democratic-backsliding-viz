@@ -6,6 +6,7 @@ import ChoroplethMap from './components/ChoroplethMap';
 import { ChoroplethBoundFeature } from '@nivo/geo';
 import chroma from 'chroma-js';
 import { indexColors, indexNames } from './indexInfo';
+import Selections from './components/Selections';
 const rawData: DataItem[] = require('./prod-dataset.json');
 const countryAverageData: DataItem[] = require('./prod-dataset-country-averages.json');
 
@@ -67,24 +68,19 @@ function App() {
   return (
     <>
       <header className="App-header Centered">
-        <h1 className="Left Max-width">
+        <h1 className="Left Max-width Padding">
           Democratic development across the world
         </h1>
       </header>
       <body className="App-content Centered">
-        <div className="Max-width" style={{ fontSize: '14px', height: '30px', alignContent: 'center' }}>
-          {selectedCountry || selectedIndex ?
-            <>
-              {/* TODO Say 'no data' if the selected country's not in the dataset */}
-              Selected:
-              {selectedCountry && <><b>{selectedCountry}</b> <button onClick={() => setSelectedCountry('')}>x</button></>}
-              {" "}
-              {selectedIndex && <><b>{indexNames[selectedIndex]}</b> <button onClick={() => setSelectedIndex('')}>x</button></>}
-              {" "}
-              {selectedIndex && <><b>{selectedYear}</b> <button onClick={() => setSelectedYear(2023)}>x</button></>}
-            </> :
-            'Select a country, democracy index, or data point to see more detailed data.'}
-        </div>
+        <Selections
+          selectedCountry={selectedCountry}
+          selectedIndex={selectedIndex}
+          selectedYear={selectedYear}
+          setSelectedCountry={setSelectedCountry}
+          setSelectedIndex={setSelectedIndex}
+          setSelectedYear={setSelectedYear}
+        />
         <div className="Max-width" style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
           <div style={{ height: 400, width: '50%' }}>
             <LineGraph data={combinedData} onIndexSelected={setSelectedIndex} onYearSelected={handleYearSelect} />
@@ -98,7 +94,7 @@ function App() {
               onCountrySelected={handleCountrySelect} />
           </div>
         </div>
-        <div className="Descriptions Left Max-width">
+        <div className="Descriptions Left Max-width Padding">
           <h4>Democracy indices explained</h4>
           <p>The indices are five <i>high-level democratic indices</i>, aggregating data from lower-level indices to describe the state of democracy in a country over time across five key democratic principles. Source: <a href="https://v-dem.net/">Varieties of Democracy (V-Dem)</a>.</p>
           <p className="Border" style={{ borderColor: indexColors['polyarchy'] }}><b>Electoral</b>: Elections are trustworthy and fair.</p>
