@@ -12,17 +12,17 @@ const countryAverageData: DataItem[] = require('./prod-dataset-country-averages.
 
 
 const setColors = (data: DataItem[], adjustColor: (color: string) => string) => {
-  data.forEach(item => {
+  const newData = data.map(item => {
     const indexKey = item.id.split('_')[2];
-    item.color = adjustColor(indexColors[indexKey]);
+    return { ...item, color: adjustColor(indexColors[indexKey]) };
   });
-  return data;
+  return newData;
 }
 
 function App() {
   const [worldAverages] = useState<DataItem[]>(setColors(rawData.filter(item => item.id.startsWith('World average')), (color) => chroma(color).alpha(0.5).css()));
   const [selectedIndex, setSelectedIndex] = useState<string>('');
-  const [selectedCountry, setSelectedCountry] = useState<string>('');
+  const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
   const [selectedYear, setSelectedYear] = useState<number>(2023);
   const [combinedData, setCombinedData] = useState<DataItem[]>([]);
   const [choroplethData, setChoroplethData] = useState<ChoroplethDataItem[]>([]);
@@ -31,8 +31,12 @@ function App() {
   const handleCountrySelect = useCallback((feature: ChoroplethBoundFeature) => {
     const object: any = feature; // It seems that the typing of the library is outdated
     const countryName = object.properties.NAME;
-    setSelectedCountry(countryName);
-  }, [setSelectedCountry]);
+    if (selectedCountries.includes(countryName)) {
+      setSelectedCountries(selectedCountries.filter(country => country !== countryName));
+    } else {
+      setSelectedCountries([...selectedCountries, countryName]);
+    }
+  }, [selectedCountries]);
 
   const handleYearSelect = useCallback((year: number) => {
     setSelectedYear(year);
@@ -44,13 +48,20 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const countryData = selectedCountry ? setColors(rawData.filter(item => item.id.startsWith(selectedCountry + '_')), _ => _) : [];
-    let data = [...worldAverages, ...countryData];
+    let data = worldAverages;
+    const selectedCountriesData = selectedCountries.length > 0
+      ? rawData.filter(item => selectedCountries.some(country => item.id.startsWith(country + '_')))
+      : [];
+    for (let i = 0; i < selectedCountriesData.length; i += 5) {
+      const countryData = selectedCountriesData.slice(i, i + 5);
+      const order = i / 5;
+      data = [...data, ...setColors(countryData, (color) => chroma(color).brighten(order).css())];
+    }
     if (selectedIndex) {
       data = data.filter(item => item.id.includes(`_${selectedIndex}`));
     }
     setCombinedData(data);
-  }, [worldAverages, selectedIndex, selectedCountry]);
+  }, [worldAverages, selectedIndex, selectedCountries]);
 
   useEffect(() => {
     const dataset = selectedIndex === '' ? countryAverageData : rawData;
@@ -74,10 +85,10 @@ function App() {
       </header>
       <body className="App-content Centered">
         <Selections
-          selectedCountry={selectedCountry}
+          selectedCountries={selectedCountries}
           selectedIndex={selectedIndex}
           selectedYear={selectedYear}
-          setSelectedCountry={setSelectedCountry}
+          setSelectedCountries={setSelectedCountries}
           setSelectedIndex={setSelectedIndex}
           setSelectedYear={setSelectedYear}
         />
@@ -90,7 +101,7 @@ function App() {
               data={choroplethData}
               colors={choroplethColors}
               selectedLabel={selectedIndex === '' ? 'Overall' : indexNames[selectedIndex]}
-              selectedCountry={selectedCountry}
+              selectedCountries={selectedCountries}
               onCountrySelected={handleCountrySelect} />
           </div>
         </div>
