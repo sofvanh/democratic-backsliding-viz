@@ -23,6 +23,7 @@ function App() {
   const [worldAverages] = useState<DataItem[]>(setColors(rawData.filter(item => item.id.startsWith('World average')), (color) => chroma(color).alpha(0.5).css()));
   const [selectedIndex, setSelectedIndex] = useState<string>('');
   const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
+  const [allCountries] = useState<string[]>(Array.from(new Set(rawData.map(item => item.id.split('_')[0]).filter(country => country !== 'World average'))));
   const [selectedYear, setSelectedYear] = useState<number>(2023);
   const [combinedData, setCombinedData] = useState<DataItem[]>([]);
   const [choroplethData, setChoroplethData] = useState<ChoroplethDataItem[]>([]);
@@ -79,13 +80,14 @@ function App() {
   return (
     <>
       <header className="App-header Centered">
-        <h1 className="Left Max-width Padding">
+        <h1 className="Left Max-width Padding-0-20">
           Democratic development across the world
         </h1>
       </header>
       <body className="App-content Centered">
         <Selections
           selectedCountries={selectedCountries}
+          allCountries={allCountries}
           selectedIndex={selectedIndex}
           selectedYear={selectedYear}
           setSelectedCountries={setSelectedCountries}
@@ -105,7 +107,7 @@ function App() {
               onCountrySelected={handleCountrySelect} />
           </div>
         </div>
-        <div className="Descriptions Left Max-width Padding">
+        <div className="Descriptions Left Max-width Padding-0-20">
           <h4>Democracy indices explained</h4>
           <p>The indices are five <i>high-level democratic indices</i>, aggregating data from lower-level indices to describe the state of democracy in a country over time across five key democratic principles. Source: <a href="https://v-dem.net/">Varieties of Democracy (V-Dem)</a>.</p>
           <p className="Border" style={{ borderColor: indexColors['polyarchy'] }}><b>Electoral</b>: Elections are trustworthy and fair.</p>

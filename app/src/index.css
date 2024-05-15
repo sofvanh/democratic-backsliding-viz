@@ -1,6 +1,18 @@
+:root {
+  --background-color: #FFF8F0;
+  --background-color-light: #fffcf9;
+  --text-color: #3E4E59;
+  --line-color: #d6cfc7;
+  --button-background: #e8e0d6;
+  --button-text-color: #3E4E59;
+  --button-border-radius: 3px;
+  --button-hover-background: #d6cfc7;
+  --button-hover-text-color: #2c3e50;
+}
+
 html {
-  background: #FFF8F0;
-  color: #3E4E59;
+  background: var(--background-color);
+  color: var(--text-color);
   font-size: 100%;
 }
 
@@ -39,16 +51,19 @@ p {
 
 button {
   min-width: 22px;
-  min-height: 22px;
-  background: #e8e0d6;
-  border-radius: 3px;
+  height: 22px;
+  background: var(--button-background);
+  border-radius: var(--button-border-radius);
   border: none;
-  color: #3E4E59;
+  color: var(--button-text-color);
   font-weight: 600;
   cursor: pointer;
+  vertical-align: center;
+  justify-self: center;
+  align-self: center;
 }
 
 button:hover {
-  background: #d6cfc7;
-  color: #2c3e50;
+  background: var(--button-hover-background);
+  color: var(--button-hover-text-color);
 }
