@@ -19,7 +19,9 @@ df = df[
         "v2x_egaldem",
     ]
 ]
-df = df[df.groupby("country_name")["year"].transform(max) == 2023]
+df = df[
+    (df.groupby("country_name")["year"].transform(max) == 2023) & (df["year"] >= 1900)
+]
 
 
 # Load the GeoJSON data to compare country names
@@ -139,7 +141,7 @@ for country, group in grouped:
         result.append(series_data)
 
 # Calculate world averages for each index and each year, rounded to 3 decimal places
-world_averages = df[df["year"] >= 1900].groupby("year")[indices].mean().reset_index()
+world_averages = df.groupby("year")[indices].mean().reset_index()
 for index in indices:
     series_data = {
         "id": f"World average_{index}",
