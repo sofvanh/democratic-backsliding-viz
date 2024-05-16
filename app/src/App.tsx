@@ -67,13 +67,15 @@ function App() {
   useEffect(() => {
     const dataset = selectedIndex === '' ? countryAverageData : rawData;
     const index = selectedIndex === '' ? 'overall' : selectedIndex;
-    const data: ChoroplethDataItem[] = dataset
-      .filter(item => item.id.endsWith(`_${index}`) && item.data.some(dataPoint => dataPoint.x === selectedYear))
-      .map(item => ({
-        id: item.ISO,
-        value: item.data.find(dataPoint => dataPoint.x === selectedYear)?.y || (() => { console.error('No data found for year:', selectedYear); return 0; })()
-      }));
-    setChoroplethData(data);
+
+    const indexDataForYear = dataset.filter(dataItem => dataItem.id.endsWith(`_${index}`) && dataItem.data.some(dataPoint => dataPoint.x === selectedYear));
+    const mappedData = indexDataForYear.map(dataItem => ({
+      id: dataItem.ISO,
+      value: dataItem.data.find(dataPoint => dataPoint.x === selectedYear)?.y || -1
+    }));
+    const filteredData = mappedData.filter(dataItem => dataItem.value !== -1);
+
+    setChoroplethData(filteredData);
     setChoroplethColors(generateColors(indexColors[index]));
   }, [selectedIndex, selectedYear, generateColors]);
 
