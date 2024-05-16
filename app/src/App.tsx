@@ -84,7 +84,7 @@ function App() {
           Democratic development across the world
         </h1>
       </header>
-      <body className="App-content Centered">
+      <div className="App-content Centered">
         <Selections
           selectedCountries={selectedCountries}
           allCountries={allCountries}
@@ -116,7 +116,7 @@ function App() {
           <p className="Border" style={{ borderColor: indexColors['delibdem'] }}><b>Deliberative</b>: Decisions are reached through public reasoning focused on the common good and not through e.g. emotional appeals, solidary attachments, parochial interests, or coercion.</p>
           <p className="Border" style={{ borderColor: indexColors['egaldem'] }}><b>Egalitarian</b>: All social groups and individuals have the same rights and freedoms and equal access to resources and power.</p>
         </div>
-      </body>
+      </div>
     </>
   );
 }
