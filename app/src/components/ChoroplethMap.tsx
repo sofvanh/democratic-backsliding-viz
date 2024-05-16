@@ -5,16 +5,16 @@ import { ChoroplethDataItem } from '../types';
 interface Props {
   data: ChoroplethDataItem[];
   colors: string[];
-  selectedLabel: string;
+  hint: string;
   selectedCountries: string[];
   onCountrySelected: (feature: ChoroplethBoundFeature) => void;
 }
 
-const ChoroplethMap = ({ data, colors, selectedLabel, selectedCountries, onCountrySelected }: Props) => {
+const ChoroplethMap = ({ data, colors, hint, selectedCountries, onCountrySelected }: Props) => {
 
   return (
     <>
-      <div className="Hint Left">Showing: {selectedLabel}</div>
+      <div className="Hint Left">{hint}</div>
       <div className="Choropleth-map" style={{ height: '100%', width: '100%' }}>
         <ResponsiveChoropleth
           data={data}
@@ -34,6 +34,19 @@ const ChoroplethMap = ({ data, colors, selectedLabel, selectedCountries, onCount
               direction: 'column',
               justify: true,
               translateX: 0,
+              translateY: -28,
+              itemsSpacing: 0,
+              itemWidth: 94,
+              itemHeight: 18,
+              itemDirection: 'left-to-right',
+              itemTextColor: '#444444',
+              symbolSize: 12
+            },
+            {
+              anchor: 'bottom-left',
+              direction: 'column',
+              justify: true,
+              translateX: 0,
               translateY: -10,
               itemsSpacing: 0,
               itemWidth: 94,
@@ -41,13 +54,11 @@ const ChoroplethMap = ({ data, colors, selectedLabel, selectedCountries, onCount
               itemDirection: 'left-to-right',
               itemTextColor: '#444444',
               symbolSize: 12,
-              effects: [
+              data: [
                 {
-                  on: 'hover',
-                  style: {
-                    itemTextColor: '#000000',
-                    itemBackground: 'rgba(255, 255, 255, 0.5)'
-                  }
+                  id: 'No data',
+                  label: 'No data',
+                  color: '#666666'
                 }
               ]
             }

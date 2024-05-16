@@ -104,7 +104,7 @@ function App() {
             <ChoroplethMap
               data={choroplethData}
               colors={choroplethColors}
-              selectedLabel={selectedIndex === '' ? 'Overall' : indexNames[selectedIndex]}
+              hint={`Showing: ${selectedIndex === '' ? 'Averages over all indices' : `${indexNames[selectedIndex]} democracy index`}, ${selectedYear}`}
               selectedCountries={selectedCountries}
               onCountrySelected={handleCountrySelect} />
           </div>
