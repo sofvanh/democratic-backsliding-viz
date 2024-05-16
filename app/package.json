@@ -4,6 +4,9 @@
   "homepage": "https://sofvanh.github.io/democratic-backsliding-viz",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/material": "^5.15.17",
     "@nivo/core": "^0.86.0",
     "@nivo/geo": "^0.86.0",
     "@nivo/line": "^0.86.0",
