@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/democratic-backsliding-viz/static/css/main.7344c5c6.css",
-    "main.js": "/democratic-backsliding-viz/static/js/main.f2035df3.js",
+    "main.css": "/democratic-backsliding-viz/static/css/main.540cbf36.css",
+    "main.js": "/democratic-backsliding-viz/static/js/main.375d1c78.js",
     "index.html": "/democratic-backsliding-viz/index.html",
-    "main.7344c5c6.css.map": "/democratic-backsliding-viz/static/css/main.7344c5c6.css.map",
-    "main.f2035df3.js.map": "/democratic-backsliding-viz/static/js/main.f2035df3.js.map"
+    "main.540cbf36.css.map": "/democratic-backsliding-viz/static/css/main.540cbf36.css.map",
+    "main.375d1c78.js.map": "/democratic-backsliding-viz/static/js/main.375d1c78.js.map"
   },
   "entrypoints": [
-    "static/css/main.7344c5c6.css",
-    "static/js/main.f2035df3.js"
+    "static/css/main.540cbf36.css",
+    "static/js/main.375d1c78.js"
   ]
 }
